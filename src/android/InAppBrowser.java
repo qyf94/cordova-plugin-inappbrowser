@@ -1111,6 +1111,20 @@ public class InAppBrowser extends CordovaPlugin {
                     LOG.e(LOG_TAG, "Error sending sms " + url + ":" + e.toString());
                 }
             }
+            //微信H5支付核心代码  
+            else  if (url.startsWith("weixin://wap/pay?")) {
+                try{ 
+                    LOG.e(LOG_TAG, url);
+                    Intent intent = new Intent();  
+                    intent.setAction(Intent.ACTION_VIEW);  
+                    intent.setData(Uri.parse(url));  
+                    // startActivity(intent);  
+                    cordova.getActivity().startActivity(intent);
+                    return true; 
+                } catch (android.content.ActivityNotFoundException e) {
+                    LOG.e(LOG_TAG, "Error sending weixin " + url + ":" + e.toString());
+                } 
+            } 
             // Test for whitelisted custom scheme names like mycoolapp:// or twitteroauthresponse:// (Twitter Oauth Response)
             else if (!url.startsWith("http:") && !url.startsWith("https:") && url.matches("^[A-Za-z0-9+.-]*://.*?$")) {
                 if (allowedSchemes == null) {
